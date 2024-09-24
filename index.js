@@ -48,7 +48,7 @@ function main() {
     switch (command) {
         case 'add':
             if (!task) {
-                console.error('Error: Task description required. Use command: node index.js add "<task description>".');
+                console.error('Error: Please provide a task description. Use: node index.js add "<task description>".');
                 process.exit(1);
             }
             addTask(task);
@@ -56,28 +56,28 @@ function main() {
 
         case 'update':
             if (!id || !task) {
-                console.error('Error: Missing task ID or description. Use command: node index.js update <id> "<task description>".');
+                console.error('Error: Both task ID and description are required. Use: node index.js update <id> "<task description>".');
                 process.exit(1);
             }
             updateTask(id, task);
             break;
         case 'delete':
             if (!id) {
-                console.error('Error: Missing task ID. Use command: node index.js delete <id>.');
+                console.error('Error: Please specify the task ID to delete. Use: node index.js delete <id>.');
                 process.exit(1);
             }
             deleteTask(id);
             break;
         case 'progress':
             if (!id) {
-                console.error('Error: Missing task ID. Use command: node index.js progress <id>.');
+                console.error('Error: Please specify the task ID to mark as in progress. Use: node index.js progress <id>.');
                 process.exit(1);
             }
             markTaskInProgress(id);
             break;
         case 'done':
             if (!id) {
-                console.error('Error: Missing task ID. Use command: node index.js done <id>.');
+                console.error('Error: Please specify the task ID to mark as done. Use: node index.js done <id>.');
                 process.exit(1);
             }
             markTaskDone(id);
@@ -98,7 +98,7 @@ function main() {
             showHelp();
             break;
         default:
-            console.error('Error: Invalid command. Use "node index.js help" to see the available commands.');
+            console.error('Error: Unrecognized command. Use "node index.js help" to see the list of available commands.');
             process.exit(1);
     }
 }
@@ -123,7 +123,7 @@ function updateTask(id, task) {
     const tasks = loadTasks();
     const index = tasks.findIndex(t => t.id === id);
     if (index === -1) {
-        console.error('Error: Task not found.');
+        console.error('Error: Task with the specified ID not found. Please check the ID and try again.');
         process.exit(1);
     }
     tasks[index].task = task;
@@ -136,7 +136,7 @@ function deleteTask(id) {
     const tasks = loadTasks();
     const index = tasks.findIndex(t => t.id === id);    
     if (index === -1) {
-        console.error('Error: Task not found.');
+        console.error('Error: Task with the specified ID not found. Please check the ID and try again.');
         process.exit(1);
     }
     tasks.splice(index, 1);
@@ -149,12 +149,12 @@ function markTaskInProgress(id) {
     const tasks = loadTasks();
     const index = tasks.findIndex(t => t.id === id);
     if (index === -1) {
-        console.error('Error: Task not found.');
+        console.error('Error: Task with the specified ID not found. Please check the ID and try again.');
         process.exit(1);
     }
     tasks[index].status = 'in progress';
     saveTasks(tasks);
-    console.log(`Task in progress: ${id}`);
+    console.log(`Task marked as in progress: ${id}`);
 }
 
 //  function to mark a task as 'Done'
@@ -162,12 +162,12 @@ function markTaskDone(id) {
     const tasks = loadTasks();
     const index = tasks.findIndex(t => t.id === id);
     if (index === -1) {
-        console.error('Error: Task not found.');
+        console.error('Error: Task with the specified ID not found. Please check the ID and try again.');
         process.exit(1);
     }
     tasks[index].status = 'done';
     saveTasks(tasks);
-    console.log(`Task done: ${id}`);
+    console.log(`Task marked as done: ${id}`);
 }
 
 //  function to list all tasks
