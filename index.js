@@ -7,6 +7,21 @@ const { v4: uuidv4 } = require('uuid');
 
 const tasksFilePath = path.join(__dirname, 'tasks.json');
 
+function formatErrorMessage(message, usage) {
+    let formattedMessage = `Error: ${message}`;
+    if (usage) {
+        formattedMessage += `\nUsage: ${usage}`;
+    }
+    return formattedMessage;
+}
+
+function errorMessage(message, usage = '') {
+    const formattedMessage = formatErrorMessage(message, usage);
+    console.error(formattedMessage);
+    process.exit(1);
+}
+
+// function to load tasks from the JSON file
 function loadTasks() {
     if (!fs.existsSync(tasksFilePath)) {
         return [];
@@ -15,10 +30,12 @@ function loadTasks() {
     return JSON.parse(data);
 }
 
+// function to save tasks to the JSON file
 function saveTasks(tasks) {
     fs.writeFileSync(tasksFilePath, JSON.stringify(tasks, null, 2), 'utf8');
 }
 
+// function to display usage instructions
 function showHelp() {
     console.log(`
 Task CLI - Simple Task Management
@@ -48,37 +65,32 @@ function main() {
     switch (command) {
         case 'add':
             if (!task) {
-                console.error('Error: Please provide a task description. Use: node index.js add "<task description>".');
-                process.exit(1);
+                errorMessage('Please provide a task description.', 'Use: node index.js add "<task description>".');
             }
             addTask(task);
             break;
 
         case 'update':
             if (!id || !task) {
-                console.error('Error: Both task ID and description are required. Use: node index.js update <id> "<task description>".');
-                process.exit(1);
+                errorMessage('Both task ID and description are required.', 'Use: node index.js update <id> "<task description>".');
             }
             updateTask(id, task);
             break;
         case 'delete':
             if (!id) {
-                console.error('Error: Please specify the task ID to delete. Use: node index.js delete <id>.');
-                process.exit(1);
+                errorMessage('Please specify the task ID to delete.', 'Use: node index.js delete <id>.');
             }
             deleteTask(id);
             break;
         case 'progress':
             if (!id) {
-                console.error('Error: Please specify the task ID to mark as in progress. Use: node index.js progress <id>.');
-                process.exit(1);
+                errorMessage('Please specify the task ID to mark as in progress.', 'Use: node index.js progress <id>.');
             }
             markTaskInProgress(id);
             break;
         case 'done':
             if (!id) {
-                console.error('Error: Please specify the task ID to mark as done. Use: node index.js done <id>.');
-                process.exit(1);
+                errorMessage('Please specify the task ID to mark as done.', 'Use: node index.js done <id>.');
             }
             markTaskDone(id);
             break;
@@ -98,8 +110,7 @@ function main() {
             showHelp();
             break;
         default:
-            console.error('Error: Unrecognized command. Use "node index.js help" to see the list of available commands.');
-            process.exit(1);
+            errorMessage('Unrecognized command.', 'Use "node index.js help" to see the list of available commands.');
     }
 }
 //  function to add a task
