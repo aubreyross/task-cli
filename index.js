@@ -102,3 +102,70 @@ function main() {
             process.exit(1);
     }
 }
+//  function to add a task
+function addTask(task) {
+    const Task = {
+        id: uuidv4(), // generates a unique ID for new tasks
+        task,
+        status: 'pending',
+        // ISO Date format to minimize cross-browser inconsistencies
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    };
+    const tasks = loadTasks();
+    tasks.push(Task);
+    saveTasks(tasks);
+    console.log(`Task added: ${Task.id}`);
+}
+
+//  function to update a task
+function updateTask(id, task) {
+    const tasks = loadTasks();
+    const index = tasks.findIndex(t => t.id === id);
+    if (index === -1) {
+        console.error('Error: Task not found.');
+        process.exit(1);
+    }
+    tasks[index].task = task;
+    saveTasks(tasks);
+    console.log(`Task updated: ${id}`);
+}
+
+//  function to delete a task
+function deleteTask(id) {
+    const tasks = loadTasks();
+    const index = tasks.findIndex(t => t.id === id);    
+    if (index === -1) {
+        console.error('Error: Task not found.');
+        process.exit(1);
+    }
+    tasks.splice(index, 1);
+    saveTasks(tasks);
+    console.log(`Task deleted: ${id}`);
+}   
+
+//  function to mark a task as 'In Progress'
+function markTaskInProgress(id) {
+    const tasks = loadTasks();
+    const index = tasks.findIndex(t => t.id === id);
+    if (index === -1) {
+        console.error('Error: Task not found.');
+        process.exit(1);
+    }
+    tasks[index].status = 'in progress';
+    saveTasks(tasks);
+    console.log(`Task in progress: ${id}`);
+}
+
+//  function to mark a task as 'Done'
+function markTaskDone(id) {
+    const tasks = loadTasks();
+    const index = tasks.findIndex(t => t.id === id);
+    if (index === -1) {
+        console.error('Error: Task not found.');
+        process.exit(1);
+    }
+    tasks[index].status = 'done';
+    saveTasks(tasks);
+    console.log(`Task done: ${id}`);
+}
