@@ -169,3 +169,32 @@ function markTaskDone(id) {
     saveTasks(tasks);
     console.log(`Task done: ${id}`);
 }
+
+//  function to list all tasks
+function listTasks() {
+    const tasks = loadTasks();
+    console.log(tasks);
+}
+
+//  function to list all done tasks
+function listDoneTasks() {
+    const tasks = loadTasks();
+    const doneTasks = tasks.filter(t => t.status === 'done');
+    console.log(doneTasks);
+}
+
+//  function to list all tasks in progress
+function listInProgressTasks() {
+    const tasks = loadTasks();  
+    const inProgressTasks = tasks.filter(t => t.status === 'in progress');
+    console.log(inProgressTasks);
+}
+
+//  function to list all pending tasks
+function listPendingTasks() {
+    const tasks = loadTasks();
+    const pendingTasks = tasks.filter(t => t.status === 'pending');
+    console.log(pendingTasks);
+}
+
+main();
