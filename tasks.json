@@ -1,1 +1,9 @@
-//STORES TASKS
+[
+  {
+    "id": "404f33c9-5455-45c7-84a2-5b4f82f7beba",
+    "task": "Complete ReadME file",
+    "status": "pending",
+    "createdAt": "2024-09-25T04:24:43.431Z",
+    "updatedAt": "2024-09-25T04:24:43.432Z"
+  }
+]

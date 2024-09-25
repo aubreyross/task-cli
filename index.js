@@ -24,10 +24,18 @@ function errorMessage(message, usage = '') {
 // function to load tasks from the JSON file
 function loadTasks() {
     if (!fs.existsSync(tasksFilePath)) {
-        return [];
+        saveTasks([]);  // Ensure the tasks file is created if it doesn't exist
+        return []; // Return an empty array if no tasks file is found
     }
-    const data = fs.readFileSync(tasksFilePath, 'utf8');
-    return JSON.parse(data);
+    // handles JSON parsing errors if file is not valid or does not exist
+    try {
+        const data = fs.readFileSync(tasksFilePath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        errorMessage('Failed to load tasks. Please check the file path and try again.');
+        saveTasks([]); // Reset tasks to an empty array on error
+        return []; // Return an empty array on error
+    }
 }
 
 // function to save tasks to the JSON file
